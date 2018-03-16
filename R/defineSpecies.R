@@ -17,16 +17,23 @@
 #'@return An environment that contains a list sims with each object of the list being one replicate to initiate a simulation
 #'
 #'@export
-defineSpecies <- function(loadData=NULL, importFounderHap=NULL, saveDataFileName="previousData", nSim=1, nCore=1, nChr=7, lengthChr=150, effPopSize=100, nMarkers=1000, nQTL=50, propDomi=0, nEpiLoci=0, domModel="HetHom"){
+#defineSpecies <- function(loadData=NULL, importFounderHap=NULL, saveDataFileName="previousData", nSim=1, nCore=1, nChr=7, lengthChr=150, effPopSize=100, nMarkers=1000, nQTL=50, propDomi=0, nEpiLoci=0, domModel="HetHom"){
+defineSpecies <- function(loadData=NULL, importFounderHap=NULL, saveDataFileName="previousData", nSim=1, nCore=1, nPops=12, nChr=31, lengthChr=18, effPopSize=100, nMarkers=10, nQTL=5, propDomi=0, nEpiLoci=0, domModel="HetHom"){
   defineSpecies.func <- function(simNum, nChr, lengthChr, effPopSize, nMarkers, nQTL, propDomi, nEpiLoci, founderHaps=NULL, domModel){
     seed <- round(stats::runif(1, 0, 1e9))
+    ##why the nloci is like this???????
     nLoci <- nMarkers + nQTL * (nEpiLoci + 1) * 2
     if (is.null(founderHaps)){
       minMAF <- 0.01
+      ##piecesPerM is number of fragments in one Morgen, which is different from GENOME software setting
       piecesPerM <- 10000
       nPiecesPerChr <- lengthChr / 100 * piecesPerM
       recBTpieces <- 1 / piecesPerM
+      ##why 2* effpopsize???????????
       coalSim <- getCoalescentSim(effPopSize=2 * effPopSize, nMrkOrMut=nLoci, nChr=nChr, nPiecesPerChr=nPiecesPerChr, recBTpieces=recBTpieces, minMAF=minMAF, seed=seed)
+      ###need to get extract subpopulations, need to figure out where to put????????
+      for (i in 1:12){}
+      getSubPop(pop=1, nChr=31, nPiecesPerChr=180,  recBTpieces=0.0001, nMrkOrMut=100, minMAF=0.01, tree=0)
       markers <- coalSim$markers
       map <- coalSim$map
       mapData <- makeMap(map=map, nLoci=nLoci, nMarkers=nMarkers, nQTL=nQTL, propDomi=propDomi, interactionMean=nEpiLoci)

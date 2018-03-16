@@ -17,6 +17,7 @@ makeMap <- function(map, nLoci, nMarkers, nQTL, propDomi, interactionMean, qtlIn
     effectivePos <- qtlInfo$effectivePos
     effects <- qtlInfo$effects
   } else {
+    ##why??????????
     nEffectiveLoci <- 1 + stats::rpois(n=nQTL, lambda=interactionMean)
     effectivePos <- sample(1:nLoci, sum(nEffectiveLoci))
     actionType <- stats::rbinom(sum(nEffectiveLoci), 1, propDomi)

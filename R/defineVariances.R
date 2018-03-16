@@ -13,6 +13,7 @@
 #'@export
 defineVariances <- function(sEnv=NULL, gVariance=1, locCorrelations=NULL, gByLocVar=1, gByYearVar=1, fracGxEAdd=0.8, plotTypeErrVars=c(Standard=1)){
   variances.func <- function(bsl, gVariance, locCorrelations, gByLocVar, gByYearVar, fracGxEAdd, plotTypeErrVars){
+#gsub(",",";",c("sEnv=NULL, gVariance=1, locCorrelations=NULL, gByLocVar=1, gByYearVar=1, fracGxEAdd=0.8, plotTypeErrVars=c(Standard=1)"))
     randLoc <- is.null(locCorrelations)
     if (randLoc){ # compound symmetric GxE here, with only g defined explicitly
       locCov <- matrix(gVariance)

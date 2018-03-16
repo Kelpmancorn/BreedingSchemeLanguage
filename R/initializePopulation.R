@@ -11,7 +11,7 @@ initializePopulation <- function(sEnv=NULL, nInd=100){
     seed <- round(stats::runif(1, 0, 1e9))
     md <- data$mapData
     
-    geno <- data$founderHaps * 2 - 1
+    geno <- data$founderHaps * 2 - 1  ####making diploid???????
     data$founderHaps <- NULL
     geno <- geno[sample(nrow(geno), nrow(geno), replace=T),]
     geno <- randomMate(popSize=nInd, geno=geno, pos=md$map$Pos)
