@@ -59,7 +59,7 @@ defineSpecies <- function(loadData=NULL, importFounderHap=NULL, saveDataFileName
       mapData <- makeMap(map=map, nLoci=nLoci, nMarkers=nMarkers, nQTL=nQTL, propDomi=propDomi, interactionMean=nEpiLoci, qtlInfo=founderHaps$qtlInfo)
     }
     mapData$domModel <- domModel
-    return (final))
+    return (final)
   }#END defineSpecies.func
   
   if(is.null(loadData)){
