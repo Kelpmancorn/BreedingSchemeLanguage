@@ -7,8 +7,11 @@
 #'
 #'@export
 initializePopulation <- function(sEnv=NULL, nInd=100){
-  initializePopulation.func <- function(data, nInd){
+  initializePopulation.func <- function(data, nInd,subpop=POP1){
     seed <- round(stats::runif(1, 0, 1e9))
+    mapname <- paste(subpop,"mapData",sep="")
+    markername <- paste(subpop,"founderHaps",sep="")
+    data <- list(mapData=data[[mapname]],founderHaps=data[[markername]])
     md <- data$mapData
     
     geno <- data$founderHaps * 2 - 1  ####making diploid???????

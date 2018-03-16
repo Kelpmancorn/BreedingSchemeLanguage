@@ -18,7 +18,7 @@
 #'
 #'@export
 #defineSpecies <- function(loadData=NULL, importFounderHap=NULL, saveDataFileName="previousData", nSim=1, nCore=1, nChr=7, lengthChr=150, effPopSize=100, nMarkers=1000, nQTL=50, propDomi=0, nEpiLoci=0, domModel="HetHom"){
-defineSpecies <- function(loadData=NULL, importFounderHap=NULL, saveDataFileName="previousData", nSim=1, nCore=1, nPops=12, nChr=31, lengthChr=18, effPopSize=100, nMarkers=10, nQTL=5, propDomi=0, nEpiLoci=0, domModel="HetHom"){
+defineSpecies <- function(loadData=NULL, importFounderHap=NULL, saveDataFileName="previousData", nSim=1, nCore=1, nPops=12, nPopsSamples=rep(10,12), nChr=31, lengthChr=1.8, effPopSize=10, nMarkers=10000, nQTL=100, propDomi=0, nEpiLoci=0, domModel="HetHom"){
   defineSpecies.func <- function(simNum, nChr, lengthChr, effPopSize, nMarkers, nQTL, propDomi, nEpiLoci, founderHaps=NULL, domModel){
     seed <- round(stats::runif(1, 0, 1e9))
     ##why the nloci is like this???????
@@ -30,13 +30,27 @@ defineSpecies <- function(loadData=NULL, importFounderHap=NULL, saveDataFileName
       nPiecesPerChr <- lengthChr / 100 * piecesPerM
       recBTpieces <- 1 / piecesPerM
       ##why 2* effpopsize???????????
-      coalSim <- getCoalescentSim(effPopSize=2 * effPopSize, nMrkOrMut=nLoci, nChr=nChr, nPiecesPerChr=nPiecesPerChr, recBTpieces=recBTpieces, minMAF=minMAF, seed=seed)
-      ###need to get extract subpopulations, need to figure out where to put????????
-      for (i in 1:12){}
-      getSubPop(pop=1, nChr=31, nPiecesPerChr=180,  recBTpieces=0.0001, nMrkOrMut=100, minMAF=0.01, tree=0)
-      markers <- coalSim$markers
-      map <- coalSim$map
-      mapData <- makeMap(map=map, nLoci=nLoci, nMarkers=nMarkers, nQTL=nQTL, propDomi=propDomi, interactionMean=nEpiLoci)
+      coalSim <- getCoalescentSim(nPops=nPops, nPopsSamples=nPopsSamples,effPopSize=2 * effPopSize, nMrkOrMut=nLoci, nChr=nChr, nPiecesPerChr=nPiecesPerChr, recBTpieces=recBTpieces, minMAF=minMAF, seed=seed)
+      
+      if (nPops == 1){
+        markers <- coalSim$markers
+        map <- coalSim$map
+        mapData <- makeMap(map=map, nLoci=nLoci, nMarkers=nMarkers, nQTL=nQTL, propDomi=propDomi, interactionMean=nEpiLoci)
+        final <- list(POP1mapData=mapData, POP1founderHaps=markers)
+      }else{
+        ###need to get extract subpopulations, need to figure out where to put????????
+        final <- NULL
+        for (i in 1:nPops){
+          Popname <- getSubPop(pop=i, popsize=nPopsSamples[1],nChr=nChr, nPiecesPerChr=nPiecesPerChr,  recBTpieces=recBTpieces, nMrkOrMut=nLoci, minMAF=minMAF, tree=0)
+          markers <- Popname$markers
+          map <- Popname$map
+          mapData <- makeMap(map=map, nLoci=nLoci, nMarkers=nMarkers, nQTL=nQTL, propDomi=propDomi, interactionMean=nEpiLoci)
+          mapname <- paste("POP",i,"mapData",sep="")
+          markername <- paste("POP",i,"founderHaps",sep="")
+          final[[mapname]] <- mapData
+          final[[markername]] <- markers
+        }
+      }
     }else{
       markers <- founderHaps$markers
       map <- founderHaps$map
@@ -45,7 +59,7 @@ defineSpecies <- function(loadData=NULL, importFounderHap=NULL, saveDataFileName
       mapData <- makeMap(map=map, nLoci=nLoci, nMarkers=nMarkers, nQTL=nQTL, propDomi=propDomi, interactionMean=nEpiLoci, qtlInfo=founderHaps$qtlInfo)
     }
     mapData$domModel <- domModel
-    return(list(mapData=mapData, founderHaps=markers))
+    return(final))
   }#END defineSpecies.func
   
   if(is.null(loadData)){
