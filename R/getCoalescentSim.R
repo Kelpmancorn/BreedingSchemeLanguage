@@ -62,7 +62,7 @@ sink()
 }
 
 ##try out simulations
-getCoalescentSim(nPops=12, nPopsSamples=rep(100,12), effPopSize=10000, nChr=31, nPiecesPerChr=180,  recBTpieces=0.0001, nMrkOrMut=100, minMAF=0.01, seed=1521156195, tree=0)##the computation time is a lot compared to running in linux
+#getCoalescentSim(nPops=12, nPopsSamples=rep(100,12), effPopSize=10000, nChr=31, nPiecesPerChr=180,  recBTpieces=0.0001, nMrkOrMut=100, minMAF=0.01, seed=1521156195, tree=0)##the computation time is a lot compared to running in linux
 
 ###build functions to return subpop###
 getSubPop <- function(pop=1, popsize=100,nChr=31, nPiecesPerChr=180,  recBTpieces=0.0001, nMrkOrMut=100, minMAF=0.01, tree=0){
@@ -122,8 +122,8 @@ map <- as.data.frame(map)
 return(list(markers=markers, map=map))
 }
 
-Pop1 <- getSubPop(pop=1, nChr=31, nPiecesPerChr=180,  recBTpieces=0.0001, nMrkOrMut=100, minMAF=0.01, tree=0)
+#Pop1 <- getSubPop(pop=1, nChr=31, nPiecesPerChr=180,  recBTpieces=0.0001, nMrkOrMut=100, minMAF=0.01, tree=0)
 
 #linux command
-./genome-linux-64bit  -pop 12 100 100 100 100 100 100 100 100 100 100 100 100 -N 100 -c 31 -pieces 180 -len 10000 -s -1 -rec 0.0001 -seed 1521156195 -maf 0.01
+#./genome-linux-64bit  -pop 12 100 100 100 100 100 100 100 100 100 100 100 100 -N 100 -c 31 -pieces 180 -len 10000 -s -1 -rec 0.0001 -seed 1521156195 -maf 0.01
 
