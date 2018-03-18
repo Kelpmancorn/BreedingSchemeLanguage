@@ -18,7 +18,7 @@
 #'
 #'@export
 #defineSpecies <- function(loadData=NULL, importFounderHap=NULL, saveDataFileName="previousData", nSim=1, nCore=1, nChr=7, lengthChr=150, effPopSize=100, nMarkers=1000, nQTL=50, propDomi=0, nEpiLoci=0, domModel="HetHom"){
-defineSpecies <- function(loadData=NULL, importFounderHap=NULL, saveDataFileName="previousData", nSim=1, nCore=1, nPops=12, nPopsSamples=rep(10,12), nChr=31, lengthChr=1.8, effPopSize=10, nMarkers=10000, nQTL=100, propDomi=0, nEpiLoci=0, domModel="HetHom"){
+defineSpecies <- function(loadData=NULL, importFounderHap=NULL, saveDataFileName="previousData", nSim=1, nCore=1, nPops=12, nPopsSamples=rep(10,12), nChr=31, lengthChr=1800, effPopSize=10, nMarkers=10000, nQTL=100, propDomi=0, nEpiLoci=0, domModel="HetHom"){
   defineSpecies.func <- function(simNum, nChr, lengthChr, effPopSize, nMarkers, nQTL, propDomi, nEpiLoci, founderHaps=NULL, domModel){
     seed <- round(stats::runif(1, 0, 1e9))
     ##why the nloci is like this???????
@@ -41,7 +41,7 @@ defineSpecies <- function(loadData=NULL, importFounderHap=NULL, saveDataFileName
         ###need to get extract subpopulations, need to figure out where to put????????
         final <- NULL
         for (i in 1:nPops){
-          Popname <- getSubPop(pop=i, popsize=nPopsSamples[1],nChr=nChr, nPiecesPerChr=nPiecesPerChr,  recBTpieces=recBTpieces, nMrkOrMut=nLoci, minMAF=minMAF, tree=0)
+          Popname <- getSubPop(pop=i, popsize=nPopsSamples[i],nChr=nChr, nPiecesPerChr=nPiecesPerChr,  recBTpieces=recBTpieces, nMrkOrMut=nLoci, minMAF=minMAF, tree=0)
           markers <- Popname$markers
           map <- Popname$map
           mapData <- makeMap(map=map, nLoci=nLoci, nMarkers=nMarkers, nQTL=nQTL, propDomi=propDomi, interactionMean=nEpiLoci)
@@ -50,7 +50,6 @@ defineSpecies <- function(loadData=NULL, importFounderHap=NULL, saveDataFileName
           final[[mapname]] <- mapData
           final[[markername]] <- markers
         }
-      }
     }else{
       markers <- founderHaps$markers
       map <- founderHaps$map
