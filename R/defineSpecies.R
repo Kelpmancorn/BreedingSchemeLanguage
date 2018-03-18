@@ -32,12 +32,12 @@ defineSpecies <- function(loadData=NULL, importFounderHap=NULL, saveDataFileName
       ##why 2* effpopsize???????????
       coalSim <- getCoalescentSim(nPops=nPops, nPopsSamples=nPopsSamples,effPopSize=2 * effPopSize, nMrkOrMut=nLoci, nChr=nChr, nPiecesPerChr=nPiecesPerChr, recBTpieces=recBTpieces, minMAF=minMAF, seed=seed)
       
-      if (nPops == 1){
-        markers <- coalSim$markers
-        map <- coalSim$map
-        mapData <- makeMap(map=map, nLoci=nLoci, nMarkers=nMarkers, nQTL=nQTL, propDomi=propDomi, interactionMean=nEpiLoci)
-        final <- list(POP1mapData=mapData, POP1founderHaps=markers)
-      }else{
+      #if (nPops == 1){
+      #  markers <- coalSim$markers
+      #  map <- coalSim$map
+      #  mapData <- makeMap(map=map, nLoci=nLoci, nMarkers=nMarkers, nQTL=nQTL, propDomi=propDomi, interactionMean=nEpiLoci)
+      #  final <- list(POP1mapData=mapData, POP1founderHaps=markers)
+      #}else{
         ###need to get extract subpopulations, need to figure out where to put????????
         final <- NULL
         for (i in 1:nPops){

@@ -6,8 +6,8 @@
 #'@return modifies the list sims in environment sEnv by creating a founder population
 #'
 #'@export
-initializePopulation <- function(sEnv=NULL, nInd=100){
-  initializePopulation.func <- function(data, nInd,subpop=POP1){
+initializePopulation <- function(sEnv=NULL, nInd=100,subpop="POP1"){
+  initializePopulation.func <- function(data, nInd,subpop){
     seed <- round(stats::runif(1, 0, 1e9))
     mapname <- paste(subpop,"mapData",sep="")
     markername <- paste(subpop,"founderHaps",sep="")
@@ -59,10 +59,10 @@ initializePopulation <- function(sEnv=NULL, nInd=100){
   with(sEnv, {
     if(nCore > 1){
       snowfall::sfInit(parallel=T, cpus=nCore)
-      sims <- snowfall::sfLapply(sims, initializePopulation.func, nInd=nInd)
+      sims <- snowfall::sfLapply(sims, initializePopulation.func, nInd=nInd,subpop=subpop)
       snowfall::sfStop()
     }else{
-      sims <- lapply(sims, initializePopulation.func, nInd=nInd)
+      sims <- lapply(sims, initializePopulation.func, nInd=nInd,subpop=subpop)
     }
   })
 }
