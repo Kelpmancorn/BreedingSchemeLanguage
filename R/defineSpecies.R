@@ -45,6 +45,7 @@ defineSpecies <- function(loadData=NULL, importFounderHap=NULL, saveDataFileName
           markers <- Popname$markers
           map <- Popname$map
           mapData <- makeMap(map=map, nLoci=nLoci, nMarkers=nMarkers, nQTL=nQTL, propDomi=propDomi, interactionMean=nEpiLoci)
+          mapData$domModel <- domModel
           mapname <- paste("POP",i,"mapData",sep="")
           markername <- paste("POP",i,"founderHaps",sep="")
           final[[mapname]] <- mapData
@@ -56,8 +57,8 @@ defineSpecies <- function(loadData=NULL, importFounderHap=NULL, saveDataFileName
       if (nrow(map) < nLoci) stop("Not enough loci in imported founder haplotypes for both markers and QTL")
       markers[is.na(markers)] <- 1 # No missing data
       mapData <- makeMap(map=map, nLoci=nLoci, nMarkers=nMarkers, nQTL=nQTL, propDomi=propDomi, interactionMean=nEpiLoci, qtlInfo=founderHaps$qtlInfo)
+      mapData$domModel <- domModel
     }
-    mapData$domModel <- domModel
     return (final)
   }#END defineSpecies.func
   
