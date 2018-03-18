@@ -34,8 +34,8 @@ systemCall[17] <- recBTpieces     # rec
 systemCall[18] <- minMAF     #maf
 systemCall[19] <- seed     # seed
 systemCall[20] <- tree     # tree
-systemCall[21] <- round(8 * nMrkOrMut / nChr)     # s  ##why?????????????
-#systemCall[21] <- -1     # s  
+#systemCall[21] <- round(8 * nMrkOrMut / nChr)     # s  ##why?????????????
+systemCall[21] <- -1     # s  
 
 
 doGenome <- function(call){
