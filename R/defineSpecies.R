@@ -49,7 +49,7 @@ defineSpecies <- function(loadData=NULL, importFounderHap=NULL, saveDataFileName
       #    markername <- paste("POP",i,"founderHaps",sep="")
       #    final[[mapname]] <- mapData
       #    final[[markername]] <- markers
-        }
+       # }
     }else{
       markers <- founderHaps$markers
       map <- founderHaps$map
