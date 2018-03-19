@@ -79,15 +79,17 @@ for (chr in 1:nChr){
 }
 colnames(map) <- c("Chr", "Pos")
 strtInd <- NULL
-#for (pop in 1:length(nPopsSamples)){
-#  strtInd <- c(strtInd, grep(paste("POP", pop, ":", sep=""), genOut))
-#}
-strtInd <- c(grep(paste("POP", pop, ":", sep=""), genOut))
+for (pop in 1:length(nPopsSamples)){
+ strtInd <- c(strtInd, grep(paste("POP", pop, ":", sep=""), genOut))
+}
+#strtInd <- c(grep(paste("POP", pop, ":", sep=""), genOut))
+#strtInd <- c(grep("POP", genOut))
 #genOut <- substring(genOut[strtInd], 7) ##get the line number of individuals, if populaiton ID >=10, it is not 7 any more, this will result in NA in the dataset when caculating freq
 trim.leading <- function (x)  sub("^\\s+", "", x)
 genOut <- trim.leading(substring(genOut[strtInd], 7))
 nSNP <- nchar(genOut[1])
-markers <- t(array(as.numeric(unlist(strsplit(genOut, split=""))), c(nSNP, sum(popsize))))
+#markers <- t(array(as.numeric(unlist(strsplit(genOut, split=""))), c(nSNP, sum(popsize))))
+markers <- t(array(as.numeric(unlist(strsplit(genOut, split=""))), c(nSNP, sum(nPopsSamples))))
 freq <- colMeans(markers)   
 ##remove maf < minMAF
 maf <- abs((freq > 0.5) - freq)
