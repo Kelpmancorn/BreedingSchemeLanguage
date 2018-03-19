@@ -6,15 +6,17 @@
 #'@return modifies the list sims in environment sEnv by creating a founder population
 #'
 #'@export
-initializePopulation <- function(sEnv=NULL, nInd=100,subpop="POP1"){
-  initializePopulation.func <- function(data, nInd,subpop){
+initializePopulation <- function(sEnv=NULL, nInd=100,subpop=1,popsize=10){
+  initializePopulation.func <- function(data, nInd,subpop,popsize){
     seed <- round(stats::runif(1, 0, 1e9))
-    mapname <- paste(subpop,"mapData",sep="")
-    markername <- paste(subpop,"founderHaps",sep="")
-    data <- list(mapData=data[[mapname]],founderHaps=data[[markername]])
+    #mapname <- paste(subpop,"mapData",sep="")
+    #markername <- paste(subpop,"founderHaps",sep="")
+    #data <- list(mapData=data[[mapname]],founderHaps=data[[markername]])
+    
     md <- data$mapData
     
-    geno <- data$founderHaps * 2 - 1  ####making diploid???????
+    #geno <- data$founderHaps * 2 - 1  ####making diploid???????
+    geno <- data$founderHaps[(subpop*popsize+1):((subpop+1)*popsize),] * 2 - 1  ####making diploid???????
     data$founderHaps <- NULL
     geno <- geno[sample(nrow(geno), nrow(geno), replace=T),]
     geno <- randomMate(popSize=nInd, geno=geno, pos=md$map$Pos)

@@ -59,13 +59,13 @@ if(file.exists("genomeOUT.txt")){
 sink("genomeOUT.txt")
 doGenome(systemCall)
 sink()
-}
+
 
 ##try out simulations
 #getCoalescentSim(nPops=12, nPopsSamples=rep(100,12), effPopSize=10000, nChr=31, nPiecesPerChr=180,  recBTpieces=0.0001, nMrkOrMut=100, minMAF=0.01, seed=1521156195, tree=0)##the computation time is a lot compared to running in linux
 
 ###build functions to return subpop###
-getSubPop <- function(pop=1, popsize=100,nChr=31, nPiecesPerChr=180,  recBTpieces=0.0001, nMrkOrMut=100, minMAF=0.01, tree=0){
+#getSubPop <- function(pop=1, popsize=100,nChr=31, nPiecesPerChr=180,  recBTpieces=0.0001, nMrkOrMut=100, minMAF=0.01, tree=0){
 genOut <- readLines("genomeOUT.txt", n=-1)
 ##We don't want to remove the GENOME output
 #file.remove("genomeOUT.txt")

@@ -33,23 +33,22 @@ defineSpecies <- function(loadData=NULL, importFounderHap=NULL, saveDataFileName
       coalSim <- getCoalescentSim(nPops=nPops, nPopsSamples=nPopsSamples,effPopSize=2 * effPopSize, nMrkOrMut=nLoci, nChr=nChr, nPiecesPerChr=nPiecesPerChr, recBTpieces=recBTpieces, minMAF=minMAF, seed=seed)
       
       #if (nPops == 1){
-      #  markers <- coalSim$markers
-      #  map <- coalSim$map
-      #  mapData <- makeMap(map=map, nLoci=nLoci, nMarkers=nMarkers, nQTL=nQTL, propDomi=propDomi, interactionMean=nEpiLoci)
+        markers <- coalSim$markers
+        map <- coalSim$map
+        mapData <- makeMap(map=map, nLoci=nLoci, nMarkers=nMarkers, nQTL=nQTL, propDomi=propDomi, interactionMean=nEpiLoci)
       #  final <- list(POP1mapData=mapData, POP1founderHaps=markers)
       #}else{
         ###need to get extract subpopulations, need to figure out where to put????????
-        final <- NULL
-        for (i in 1:nPops){
-          Popname <- getSubPop(pop=i, popsize=nPopsSamples[i],nChr=nChr, nPiecesPerChr=nPiecesPerChr,  recBTpieces=recBTpieces, nMrkOrMut=nLoci, minMAF=minMAF, tree=0)
-          markers <- Popname$markers
-          map <- Popname$map
-          mapData <- makeMap(map=map, nLoci=nLoci, nMarkers=nMarkers, nQTL=nQTL, propDomi=propDomi, interactionMean=nEpiLoci)
-          mapData$domModel <- domModel
-          mapname <- paste("POP",i,"mapData",sep="")
-          markername <- paste("POP",i,"founderHaps",sep="")
-          final[[mapname]] <- mapData
-          final[[markername]] <- markers
+      #  final <- NULL
+      #  for (i in 1:nPops){
+      #    Popname <- getSubPop(pop=i, popsize=nPopsSamples[i],nChr=nChr, nPiecesPerChr=nPiecesPerChr,  recBTpieces=recBTpieces, nMrkOrMut=nLoci, minMAF=minMAF, tree=0)
+      #    markers <- Popname$markers
+      #    map <- Popname$map
+      #    mapData <- makeMap(map=map, nLoci=nLoci, nMarkers=nMarkers, nQTL=nQTL, propDomi=propDomi, interactionMean=nEpiLoci)
+      #    mapname <- paste("POP",i,"mapData",sep="")
+      #    markername <- paste("POP",i,"founderHaps",sep="")
+      #    final[[mapname]] <- mapData
+      #    final[[markername]] <- markers
         }
     }else{
       markers <- founderHaps$markers
@@ -57,9 +56,10 @@ defineSpecies <- function(loadData=NULL, importFounderHap=NULL, saveDataFileName
       if (nrow(map) < nLoci) stop("Not enough loci in imported founder haplotypes for both markers and QTL")
       markers[is.na(markers)] <- 1 # No missing data
       mapData <- makeMap(map=map, nLoci=nLoci, nMarkers=nMarkers, nQTL=nQTL, propDomi=propDomi, interactionMean=nEpiLoci, qtlInfo=founderHaps$qtlInfo)
-      mapData$domModel <- domModel
     }
-    return (final)
+    mapData$domModel <- domModel
+    #return (final)
+    return(list(mapData=mapData, founderHaps=markers))
   }#END defineSpecies.func
   
   if(is.null(loadData)){
