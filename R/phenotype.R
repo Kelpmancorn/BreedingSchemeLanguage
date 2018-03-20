@@ -40,14 +40,19 @@ phenotype <- function(sEnv=NULL, plotType="Standard", nRep=1, popID=NULL, locati
     nAdd <- max(years) - ncol(bsl$yearEffects) # One col per year
     if (nAdd > 0 | (bsl$varParms$randLoc & max(locations) > ncol(bsl$locEffects))){
       M <- bsl$geno[1:nInd * 2 - 1, bsl$mapData$effectivePos] + bsl$geno[1:nInd * 2, bsl$mapData$effectivePos]
+      if (stats::sd(M) == 0){
+        print("Warning! Markers are monomorphic")
+      }
       nEffLoc <- length(bsl$mapData$effectivePos)
     }
     if (nAdd > 0){
       # Create GxY effects
       vp <- bsl$varParms$gByYearVar * bsl$varParms$fracGxEAdd
+      ##not sure of this,random process??????
       gByYqtl <- matrix(stats::rbinom(nEffLoc * nAdd, 1, 0.5), nEffLoc) * 2 - 1
       bsl$gByYqtl <- cbind(bsl$gByYqtl, gByYqtl)
       toAdd <- M %*% gByYqtl
+      ##the standard deviation of the fournder QTL is 0, so error occur if the fourder QTL(M matrix) has no variaiton
       sdFound <- 1 / apply(toAdd[1:bsl$nFounders, , drop=F], 2, stats::sd) * sqrt(vp)
       toAdd <- sapply(1:length(sdFound), function(i) toAdd[,i] * sdFound[i])
       bsl$yearScale <- c(bsl$yearScale, sdFound)
