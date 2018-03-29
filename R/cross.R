@@ -7,17 +7,11 @@
 #'@param popID2 population ID to be crossed with popID to make hybrids. Default: second population not used
 #'@param notWithinFam if TRUE, like equalContribution, all individuals are used the same number of times as parents and self-fertilization is not allowed. In addition, half- and full-sibs are not allowed to mate. Default: F
 #'@param pedigree optional two- or three-column matrix: the first two columns are the GIDs that you want to cross, the third column is the number of progeny from that cross. NOTE: pedigree supercedes the nProgeny, equalContribution, popID, popID2, and notWithinFam parameters. You have to know what you are doing to use this parameter. Default: NULL
-#'@param parms optional named list. Objects with those names will be created with the corresponding values. A way to pass values that are not predetermined by the script. Default: NULL
 #'
 #'@return modifies the list sims in environment sEnv by creating a progeny population as specified, with an incremented population number
 #'
 #'@export
-cross <- function(sEnv=NULL, nProgeny=100, equalContribution=F, popID=NULL, popID2=NULL, notWithinFam=F, pedigree=NULL, parms=NULL){
-  if(!is.null(parms)){
-    for (n in 1:length(parms)){
-      assign(names(parms)[n], parms[[n]])
-    }
-  }
+cross <- function(sEnv=NULL, nProgeny=100, equalContribution=F, popID=NULL, popID2=NULL, notWithinFam=F, pedigree=NULL){
   cross.func <- function(bsl, nProgeny, equalContribution, popID, popID2){
     locPos <- bsl$mapData$map$Pos
     if (!is.null(pedigree)){
