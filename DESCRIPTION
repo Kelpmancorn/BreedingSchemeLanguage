@@ -1,8 +1,8 @@
 Package: BreedingSchemeLanguage
 Type: Package
-Title: Describe and simulate breeding schemes
-Version: 1.4
-Date: 2017-10-28
+Title: Describe and Simulate Breeding Schemes
+Version: 0.9.4
+Date: 2018-03-27
 Author: Shiori Yabe, Hiroyoshi Iwata, and Jean-Luc Jannink
 Maintainer: Jean-Luc Jannink <jeanluc.work@gmail.com>
 Description: Users can simulate their planned breeding schemes by using functions that do standard breeding tasks.
@@ -14,7 +14,8 @@ Imports:
   ggplot2,
   lme4,
   rrBLUP,
-  Matrix
+  Matrix,
+    Rcpp
 LinkingTo: Rcpp
 LazyLoad: yes
 VignetteBuilder: knitr
