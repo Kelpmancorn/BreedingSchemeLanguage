@@ -11,7 +11,7 @@
 #'@return modifies the list sims in environment sEnv by creating a progeny population as specified, with an incremented population number
 #'
 #'@export
-cross <- function(sEnv=NULL, nProgeny=100, equalContribution=F, popID=NULL, popID2=NULL, notWithinFam=F, pedigree=NULL){
+cross <- function(sEnv=NULL, nProgeny=100, equalContribution=F, popID=NULL, popID2=NULL, notWithinFam=F, pedigree=NULL, parms=NULL){
   cross.func <- function(bsl, nProgeny, equalContribution, popID, popID2){
     locPos <- bsl$mapData$map$Pos
     if (!is.null(pedigree)){
