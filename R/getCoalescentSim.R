@@ -59,13 +59,13 @@ if(file.exists("genomeOUT.txt")){
 sink("genomeOUT.txt")
 doGenome(systemCall)
 sink()
-}
+#}
 
 ##try out simulations
 #getCoalescentSim(nPops=12, nPopsSamples=rep(100,12), effPopSize=10000, nChr=31, nPiecesPerChr=180,  recBTpieces=0.0001, nMrkOrMut=100, minMAF=0.01, seed=1521156195, tree=0)##the computation time is a lot compared to running in linux
 
 ###build functions to return subpop###
-getSubPop <- function(pop=1, popsize=100,nChr=31, nPiecesPerChr=180,  recBTpieces=0.0001, nMrkOrMut=100, minMAF=0.01, tree=0){
+#getSubPop <- function(pop=1, popsize=100,nChr=31, nPiecesPerChr=180,  recBTpieces=0.0001, nMrkOrMut=100, minMAF=0.01, tree=0){
 genOut <- readLines("genomeOUT.txt", n=-1)
 ##We don't want to remove the GENOME output
 #file.remove("genomeOUT.txt")
@@ -79,15 +79,16 @@ for (chr in 1:nChr){
 }
 colnames(map) <- c("Chr", "Pos")
 strtInd <- NULL
-#for (pop in 1:length(nPopsSamples)){
-#  strtInd <- c(strtInd, grep(paste("POP", pop, ":", sep=""), genOut))
-#}
-strtInd <- c(grep(paste("POP", pop, ":", sep=""), genOut))
+for (pop in 1:length(nPopsSamples)){
+  strtInd <- c(strtInd, grep(paste("POP", pop, ":", sep=""), genOut))
+}
+#strtInd <- c(grep(paste("POP", pop, ":", sep=""), genOut))
 #genOut <- substring(genOut[strtInd], 7) ##get the line number of individuals, if populaiton ID >=10, it is not 7 any more, this will result in NA in the dataset when caculating freq
 trim.leading <- function (x)  sub("^\\s+", "", x)
 genOut <- trim.leading(substring(genOut[strtInd], 7))
 nSNP <- nchar(genOut[1])
-markers <- t(array(as.numeric(unlist(strsplit(genOut, split=""))), c(nSNP, sum(popsize))))
+#markers <- t(array(as.numeric(unlist(strsplit(genOut, split=""))), c(nSNP, sum(popsize))))
+markers <- t(array(as.numeric(unlist(strsplit(genOut, split=""))), c(nSNP, sum(nPopsSamples))))
 freq <- colMeans(markers)   
 ##remove maf < minMAF
 maf <- abs((freq > 0.5) - freq)
