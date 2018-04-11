@@ -16,7 +16,7 @@
 
 ##number of population nPops is added to simulate subpopulations. len parameter is 10000 by default so it is not included in
 
-getCoalescentSim <- function(nPops=12, nPopsSamples=rep(11,12), effPopSize=100, nChr=31, nPiecesPerChr=180,  recBTpieces=0.0001, nMrkOrMut=100, minMAF=0.01, seed=as.integer(Sys.time()), tree=0){ ##effective population size should be larger than the sample size
+getCoalescentSim <- function(nPops=12, nPopsSamples=rep(12,12), effPopSize=100, nChr=31, nPiecesPerChr=180,  recBTpieces=0.0001, nMrkOrMut=100, minMAF=0.01, seed=as.integer(Sys.time()), tree=0){ ##effective population size should be larger than the sample size
 
 ##try to set up some trial parameters 
 #gsub(",",";",c("nPops=12, nPopsSamples=rep(100,12), effPopSize=10, nChr=31, nPiecesPerChr=18, len=100, recBTpieces=0.0001, nMrkOrMut=10, minMAF=0.01, seed=as.integer(Sys.time()), tree=0"))
