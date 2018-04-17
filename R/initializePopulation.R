@@ -6,19 +6,29 @@
 #'@return modifies the list sims in environment sEnv by creating a founder population
 #'
 #'@export
-initializePopulation <- function(sEnv=NULL, nInd=100){
-  initializePopulation.func <- function(data, nInd){
+initializePopulation <- function(sEnv=NULL, nInd=100,nPops=12,subsize=24){
+  initializePopulation.func <- function(data, nInd,nPops=12,subsize=24){
     seed <- round(stats::runif(1, 0, 1e9))
     md <- data$mapData
-    
-    geno <- data$founderHaps * 2 - 1  ####making diploid???????
-    data$founderHaps <- NULL
-    geno <- geno[sample(nrow(geno), nrow(geno), replace=T),]
-    geno <- randomMate(popSize=nInd, geno=geno, pos=md$map$Pos)
-    pedigree <- cbind(-geno$pedigree, 0) # For founders, parents will be negative
+    #geno <- data$founderHaps * 2 - 1  ####making diploid???????
+    #data$founderHaps <- NULL
+    ##to randome mate withini subpopulaitons
+    geno2 <- NULL
+    pedigree2 <- NULL
+    for (i in 1:nPops){
+      #geno <- geno[sample(nrow(geno), nrow(geno), replace=T),]  ##why do we sample???
+      geno <- data$founderHaps * 2 - 1
+      geno <- geno[((i-1)*subsize+1):(subsize*i),][sample(subsize, subsize, replace=T),] #extract subpopulation from the whole 
+      geno <- randomMate(popSize=nInd, geno=geno, pos=md$map$Pos)
+      #pedigree <- cbind(-geno$pedigree, 0) # For founders, parents will be negative
+      pedigree <- cbind(-(geno$pedigree+(i-1)*subsize/2), 0) #increment the pedigree id with subsize
+      geno2 <- rbind(geno2,geno$progenies) 
+      pedigree2 <- rbind(pedigree2,pedigree)
+    }
+    geno <- geno2
+    pedigree <- pedigree2
     colnames(pedigree) <- 1:3
-    geno <- geno$progenies
-    
+    data$founderHaps <- NULL
     # Genetic effects. This works even if locCov is scalar
     gValue <- calcGenotypicValue(geno=geno, mapData=md)
     covGval <- stats::var(gValue)
