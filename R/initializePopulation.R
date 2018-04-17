@@ -46,9 +46,11 @@ initializePopulation <- function(sEnv=NULL, nInd=100,nPops=12,subsize=24){
     yearEffects <- matrix(0, nrow=nInd, ncol=0)
     yearEffectsI <- matrix(0, nrow=nInd, ncol=0)
     
-    genoRec <- data.frame(GID=1:nInd, pedigree=pedigree, popID=0, basePopID=0, hasGeno=FALSE)
+    #genoRec <- data.frame(GID=1:nInd, pedigree=pedigree, popID=0, basePopID=0, hasGeno=FALSE)
+    genoRec <- data.frame(GID=1:(nInd*nPops), pedigree=pedigree, popID=0, basePopID=0, hasGeno=FALSE) # GID should not be just nInd
     data$mapData <- md
-    data$nFounders <- nInd
+    #data$nFounders <- nInd
+    data$nFounders <- nInd*nPops #nFounders shoulb be sum of founders from all subpopulations
     data$geno <- geno; data$genoRec <- genoRec; data$gValue <- gValue
     data$locEffects <- locEffects; data$locEffectsI <- locEffectsI
     data$yearEffects <- yearEffects; data$yearEffectsI <- yearEffectsI
