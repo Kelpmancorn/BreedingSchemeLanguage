@@ -41,10 +41,14 @@ initializePopulation <- function(sEnv=NULL, nInd=100,nPops=12,subsize=24){
     md$effects <- md$effects %*% coef
     gValue <- gValue %*% coef
     # Year and location effects: create matrices with zero columns until phenotyped
-    locEffects <- matrix(0, nrow=nInd, ncol=0)
-    locEffectsI <- matrix(0, nrow=nInd, ncol=0)
-    yearEffects <- matrix(0, nrow=nInd, ncol=0)
-    yearEffectsI <- matrix(0, nrow=nInd, ncol=0)
+    #locEffects <- matrix(0, nrow=nInd, ncol=0)
+    #locEffectsI <- matrix(0, nrow=nInd, ncol=0)
+    #yearEffects <- matrix(0, nrow=nInd, ncol=0)
+    #yearEffectsI <- matrix(0, nrow=nInd, ncol=0)
+    locEffects <- matrix(0, nrow=nInd*nPops, ncol=0)    # The sum of all subpopulaitons
+    locEffectsI <- matrix(0, nrow=nInd*nPops, ncol=0)
+    yearEffects <- matrix(0, nrow=nInd*nPops, ncol=0)
+    yearEffectsI <- matrix(0, nrow=nInd*nPops, ncol=0)
     
     #genoRec <- data.frame(GID=1:nInd, pedigree=pedigree, popID=0, basePopID=0, hasGeno=FALSE)
     genoRec <- data.frame(GID=1:(nInd*nPops), pedigree=pedigree, popID=0, basePopID=0, hasGeno=FALSE) # GID should not be just nInd
