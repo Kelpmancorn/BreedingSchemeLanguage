@@ -16,12 +16,12 @@
 
 ##number of population nPops is added to simulate subpopulations. len parameter is 10000 by default so it is not included in
 
-getCoalescentSim <- function(nPops=12, nPopsSamples=rep(24,12), effPopSize=100, nChr=31, nPiecesPerChr=180,  recBTpieces=0.0001, nMrkOrMut=100, minMAF=0.01, seed=as.integer(Sys.time()), tree=0){ ##effective population size should be larger than the sample size
+getCoalescentSim <- function(nPops=12, nPopsSamples=rep(24,12), effPopSize=100, nChr=31, nPiecesPerChr=180,  recBTpieces=0.0001, nMrkOrMut=100, minMAF=0.01,migration=2.5e-4, seed=as.integer(Sys.time()), tree=0){ ##effective population size should be larger than the sample size
 
 ##try to set up some trial parameters 
 #gsub(",",";",c("nPops=12, nPopsSamples=rep(100,12), effPopSize=10, nChr=31, nPiecesPerChr=18, len=100, recBTpieces=0.0001, nMrkOrMut=10, minMAF=0.01, seed=as.integer(Sys.time()), tree=0"))
   
-systemCall <- rep(NA, 21)
+systemCall <- rep(NA, 22)
 #systemCall <- rep(NA, 10)
 #nPopsSamples <- effPopSize
 systemCall[1] <- nPops     # pop1
@@ -36,6 +36,7 @@ systemCall[19] <- seed     # seed
 systemCall[20] <- tree     # tree
 #systemCall[21] <- round(8 * nMrkOrMut / nChr)     # s  ##why?????????????
 systemCall[21] <- -1     # s  
+systemCall[22] <- migration     # mig 
 
 
 doGenome <- function(call){
@@ -50,7 +51,8 @@ doGenome <- function(call){
         par7 = call[18],
         par8 = call[19],
         par9 = call[20],
-        par10 = call[21])
+        par10 = call[21]),
+        par11 = call[22])
 }
 
 if(file.exists("genomeOUT.txt")){

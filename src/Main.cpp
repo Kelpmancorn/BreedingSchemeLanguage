@@ -51,7 +51,7 @@
 
 using namespace std;
 
-RcppExport SEXP coalescentSim(SEXP par1, SEXP par2, SEXP par3, SEXP par4, SEXP par5, SEXP par6, SEXP par7, SEXP par8, SEXP par9, SEXP par10)
+RcppExport SEXP coalescentSim(SEXP par1, SEXP par2, SEXP par3, SEXP par4, SEXP par5, SEXP par6, SEXP par7, SEXP par8, SEXP par9, SEXP par10, SEXP par11)
 {
   string popSize = Rcpp::as<std::string>(par3);
   string rec = Rcpp::as<std::string>(par6);
@@ -60,7 +60,8 @@ RcppExport SEXP coalescentSim(SEXP par1, SEXP par2, SEXP par3, SEXP par4, SEXP p
   int numIndepRegion = Rcpp::as<int>(par4);
   int nSubPOP = Rcpp::as<int>(par1);
   vector<int> nSubSample = Rcpp::as< std::vector<int> >(par2);
-  double mut=1e-8, mig=2.5e-4;
+  double mut=1e-8;
+  double mig = Rcpp::as<double>(par11);
   double maf = Rcpp::as<double>(par7);
   double prop = 1.0;
   int SNP = Rcpp::as<int>(par10);

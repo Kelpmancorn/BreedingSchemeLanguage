@@ -18,7 +18,7 @@
 #'
 #'@export
 #defineSpecies <- function(loadData=NULL, importFounderHap=NULL, saveDataFileName="previousData", nSim=1, nCore=1, nChr=7, lengthChr=150, effPopSize=100, nMarkers=1000, nQTL=50, propDomi=0, nEpiLoci=0, domModel="HetHom"){
-defineSpecies <- function(loadData=NULL, importFounderHap=NULL, saveDataFileName="previousData", nSim=1, nCore=1, nPops=12, nPopsSamples=rep(10,12), nChr=31, lengthChr=1.8, effPopSize=10, nMarkers=10000, nQTL=100, propDomi=0, nEpiLoci=0, domModel="HetHom"){
+defineSpecies <- function(loadData=NULL, importFounderHap=NULL, saveDataFileName="previousData", nSim=1, nCore=1, nPops=12, nPopsSamples=rep(10,12), nChr=31, lengthChr=1.8, effPopSize=10, nMarkers=10000, nQTL=100, propDomi=0, nEpiLoci=0, domModel="HetHom",migration=2.5e-4){
   defineSpecies.func <- function(simNum, nChr, lengthChr, effPopSize, nMarkers, nQTL, propDomi, nEpiLoci, founderHaps=NULL, domModel){
     seed <- round(stats::runif(1, 0, 1e9))
     nLoci <- nMarkers + nQTL * (nEpiLoci + 1) * 2
@@ -27,7 +27,7 @@ defineSpecies <- function(loadData=NULL, importFounderHap=NULL, saveDataFileName
       piecesPerM <- 10000
       nPiecesPerChr <- lengthChr / 100 * piecesPerM
       recBTpieces <- 1 / piecesPerM
-      coalSim <- getCoalescentSim(effPopSize=2 * effPopSize, nMrkOrMut=nLoci, nChr=nChr, nPiecesPerChr=nPiecesPerChr, recBTpieces=recBTpieces, minMAF=minMAF, seed=seed)
+      coalSim <- getCoalescentSim(effPopSize=2 * effPopSize, nMrkOrMut=nLoci, nChr=nChr, nPiecesPerChr=nPiecesPerChr, recBTpieces=recBTpieces, minMAF=minMAF, seed=seed,migration=migration)
       markers <- coalSim$markers
       map <- coalSim$map
       mapData <- makeMap(map=map, nLoci=nLoci, nMarkers=nMarkers, nQTL=nQTL, propDomi=propDomi, interactionMean=nEpiLoci)
@@ -44,11 +44,11 @@ defineSpecies <- function(loadData=NULL, importFounderHap=NULL, saveDataFileName
   
   if(is.null(loadData)){
     if (is.null(importFounderHap)){
-    sims <- lapply(1:nSim, defineSpecies.func, nChr=nChr, lengthChr=lengthChr, effPopSize=effPopSize, nMarkers=nMarkers, nQTL=nQTL, propDomi=propDomi, nEpiLoci=nEpiLoci, domModel=domModel)
+    sims <- lapply(1:nSim, defineSpecies.func, nChr=nChr, lengthChr=lengthChr, effPopSize=effPopSize, nMarkers=nMarkers, nQTL=nQTL, propDomi=propDomi, nEpiLoci=nEpiLoci, domModel=domModel,migration=migration)
     }else{ # importFounderHap not NULL
       foundHap <- utils::read.table(file=paste(importFounderHap, ".hmp", sep=""))
       foundHap <- phasedHapMap2mat(foundHap)
-      sims <- lapply(1:nSim, defineSpecies.func, nChr=nChr, lengthChr=lengthChr, effPopSize=effPopSize, nMarkers=nMarkers, nQTL=nQTL, propDomi=propDomi, nEpiLoci=nEpiLoci, founderHaps=foundHap, domModel=domModel)
+      sims <- lapply(1:nSim, defineSpecies.func, nChr=nChr, lengthChr=lengthChr, effPopSize=effPopSize, nMarkers=nMarkers, nQTL=nQTL, propDomi=propDomi, nEpiLoci=nEpiLoci, founderHaps=foundHap, domModel=domModel,migration=migration)
     }
     save(sims, nSim, nCore, file=paste(saveDataFileName, ".RData", sep=""))
   }else{ # loadData not NULL
