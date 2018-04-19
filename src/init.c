@@ -6,7 +6,7 @@
 extern SEXP coalescentSim(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
 
 static const R_CallMethodDef CallEntries[] = {
-  {"coalescentSim", (DL_FUNC) &coalescentSim, 10},
+  {"coalescentSim", (DL_FUNC) &coalescentSim, 11},
   {NULL, NULL, 0}
 };
 
