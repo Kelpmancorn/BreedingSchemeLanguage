@@ -51,7 +51,7 @@ doGenome <- function(call){
         par7 = call[18],
         par8 = call[19],
         par9 = call[20],
-        par10 = call[21]),
+        par10 = call[21],
         par11 = call[22])
 }
 
