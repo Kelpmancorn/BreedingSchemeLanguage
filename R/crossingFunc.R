@@ -103,6 +103,7 @@ pedigreeMate <- function(parents, geno, pos){
   if (ncol(parents) > 2){
     test <- apply(parents, 1, function(vec) rep.int(vec[1:2], vec[3]))
     test <- matrix(unlist(test), ncol=2, byrow=T)
+    parents <- test
   }
   progenies <- makeProgenies(parents, geno, pos)
   return(list(progenies = progenies, pedigree = parents))
