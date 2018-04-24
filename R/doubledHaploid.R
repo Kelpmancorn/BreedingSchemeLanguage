@@ -39,10 +39,10 @@ doubledHaploid <- function(sEnv=NULL, popID=NULL,ID=ID){
   with(sEnv, {
     if(nCore > 1){
       snowfall::sfInit(parallel=T, cpus=nCore)
-      sims <- snowfall::sfLapply(sims, doubledHaploid.func, nProgeny=nProgeny, popID=popID)
+      sims <- snowfall::sfLapply(sims, doubledHaploid.func, ID=ID, popID=popID)
       snowfall::sfStop()
     } else{
-      sims <- lapply(sims, doubledHaploid.func, nProgeny=nProgeny, popID=popID)
+      sims <- lapply(sims, doubledHaploid.func, ID=ID, popID=popID)
     }
   })
 }
