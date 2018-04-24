@@ -7,7 +7,8 @@
 #'@return modifies the list sims in environment sEnv by creating a doubled haploid progeny population as specified, with an incremented population number
 #'
 #'@export
-doubledHaploid <- function(sEnv=NULL, nProgeny=100, popID=NULL,ID=ID){
+#doubledHaploid <- function(sEnv=NULL, Progeny=100, popID=NULL){
+doubledHaploid <- function(sEnv=NULL, popID=NULL,ID=ID){
   doubledHaploid.func <- function(bsl, nProgeny, popID){
     locPos <- bsl$mapData$map$Pos
     if(is.null(popID)){
