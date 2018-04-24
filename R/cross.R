@@ -25,7 +25,7 @@ cross <- function(sEnv=NULL, nProgeny=100, equalContribution=F, popID=NULL, popI
       geno <- bsl$geno[sort(c(GID.1 * 2 - 1, GID.1 * 2)),]
       idx <- 1:length(GID.1)
       names(idx) <- GID.1
-      parents <- matrix(idx[as.character(pedigree)], nrow(pedigree))
+      parents <- matrix(idx[as.character(pedigree[,1:2])], nrow(pedigree))
       if (ncol(pedigree) > 2) parents <- cbind(parents, pedigree[,3])
       geno <- pedigreeMate(parents=parents, geno=geno, pos=locPos)
       pedigree <- cbind(matrix(GID.1[geno$pedigree], ncol=2), 0)
