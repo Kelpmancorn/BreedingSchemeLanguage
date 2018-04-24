@@ -63,6 +63,19 @@ makeDHs <- function(popSize, geno, pos){
   return(list(progenies = progenies, pedigree = cbind(parents, parents)))
 }
 
+#'selectDHs
+#'
+#'@param selectID select individuals to DH
+#'@param geno matrix of haplotypes
+#'@param pos position of markers/QTLs
+#'
+selectDHs <- function(selectID, geno, pos){
+  parents <- selectID
+  progenies <- t(sapply(parents, function(par) makeGamete(geno[par*2 + -1:0, ], pos)))
+  progenies <- rbind(progenies, progenies)[rep(c(0, popSize), popSize) + rep(1:popSize, each=2), ]
+  return(list(progenies = progenies, pedigree = cbind(parents, parents)))
+}
+
 #'makeSelfs
 #'
 #'@param popSize the number of selfed individuals to return
