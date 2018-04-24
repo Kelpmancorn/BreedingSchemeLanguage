@@ -9,7 +9,8 @@
 #'@export
 #doubledHaploid <- function(sEnv=NULL, Progeny=100, popID=NULL){
 doubledHaploid <- function(sEnv=NULL, popID=NULL,ID=ID){
-  doubledHaploid.func <- function(bsl, nProgeny, popID){
+  doubledHaploid.func <- function(bsl, popID,ID){
+    nProgeny <- length(ID)
     locPos <- bsl$mapData$map$Pos
     if(is.null(popID)){
       popID <- max(bsl$genoRec$popID)

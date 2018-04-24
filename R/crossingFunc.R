@@ -71,6 +71,7 @@ makeDHs <- function(popSize, geno, pos){
 #'
 selectDHs <- function(selectID, geno, pos){
   parents <- selectID
+  popsize<- length(parents)
   progenies <- t(sapply(parents, function(par) makeGamete(geno[par*2 + -1:0, ], pos)))
   progenies <- rbind(progenies, progenies)[rep(c(0, popSize), popSize) + rep(1:popSize, each=2), ]
   return(list(progenies = progenies, pedigree = cbind(parents, parents)))
