@@ -3,14 +3,18 @@
 #'@param sEnv the environment that BSL functions operate in. Default is "simEnv" so use that to avoid specifying when calling functions
 #'@param nProgeny the number of progeny
 #'@param popID population ID to be devided by meiosis and doubled (default: the latest population)
+#'@param parms optional named list. Objects with those names will be created with the corresponding values. A way to pass values that are not predetermined by the script. Default: NULL
 #'
 #'@return modifies the list sims in environment sEnv by creating a doubled haploid progeny population as specified, with an incremented population number
 #'
 #'@export
-#doubledHaploid <- function(sEnv=NULL, Progeny=100, popID=NULL){
-doubledHaploid <- function(sEnv=NULL, popID=NULL,ID=ID){
-  doubledHaploid.func <- function(bsl, popID,ID){
-    nProgeny <- length(ID)
+doubledHaploid <- function(sEnv=NULL, nProgeny=100, popID=NULL, parms=NULL){
+  if(!is.null(parms)){
+    for (n in 1:length(parms)){
+      assign(names(parms)[n], parms[[n]])
+    }
+  }
+  doubledHaploid.func <- function(bsl, nProgeny, popID){
     locPos <- bsl$mapData$map$Pos
     if(is.null(popID)){
       popID <- max(bsl$genoRec$popID)
@@ -19,8 +23,7 @@ doubledHaploid <- function(sEnv=NULL, popID=NULL,ID=ID){
     GIDpar <- bsl$genoRec$GID[tf]
     nPar <- length(GIDpar)
     geno <- bsl$geno[rep(GIDpar*2, each=2) + rep(-1:0, nPar),]
-    #geno <- makeDHs(popSize=nProgeny, geno=geno, pos=locPos)
-    geno <- selectDHs(selectID=ID, geno=geno, pos=locPos)
+    geno <- makeDHs(popSize=nProgeny, geno=geno, pos=locPos)
     pedigree <- cbind(matrix(GIDpar[geno$pedigree], nProgeny), -1)
     geno <- geno$progenies
     bsl <- addProgenyData(bsl, geno, pedigree)
@@ -39,10 +42,10 @@ doubledHaploid <- function(sEnv=NULL, popID=NULL,ID=ID){
   with(sEnv, {
     if(nCore > 1){
       snowfall::sfInit(parallel=T, cpus=nCore)
-      sims <- snowfall::sfLapply(sims, doubledHaploid.func, ID=ID, popID=popID)
+      sims <- snowfall::sfLapply(sims, doubledHaploid.func, nProgeny=nProgeny, popID=popID)
       snowfall::sfStop()
     } else{
-      sims <- lapply(sims, doubledHaploid.func, ID=ID, popID=popID)
+      sims <- lapply(sims, doubledHaploid.func, nProgeny=nProgeny, popID=popID)
     }
   })
 }
