@@ -44,11 +44,11 @@ defineSpecies <- function(loadData=NULL, importFounderHap=NULL, saveDataFileName
   
   if(is.null(loadData)){
     if (is.null(importFounderHap)){
-    sims <- lapply(1:nSim, defineSpecies.func, nChr=nChr, lengthChr=lengthChr, effPopSize=effPopSize, nMarkers=nMarkers, nQTL=nQTL, propDomi=propDomi, nEpiLoci=nEpiLoci, domModel=domModel,migration=migration)
+    sims <- lapply(1:nSim, defineSpecies.func, nPops, nPopsSamples,nChr=nChr, lengthChr=lengthChr, effPopSize=effPopSize, nMarkers=nMarkers, nQTL=nQTL, propDomi=propDomi, nEpiLoci=nEpiLoci, domModel=domModel,migration=migration)
     }else{ # importFounderHap not NULL
       foundHap <- utils::read.table(file=paste(importFounderHap, ".hmp", sep=""))
       foundHap <- phasedHapMap2mat(foundHap)
-      sims <- lapply(1:nSim, defineSpecies.func, nChr=nChr, lengthChr=lengthChr, effPopSize=effPopSize, nMarkers=nMarkers, nQTL=nQTL, propDomi=propDomi, nEpiLoci=nEpiLoci, founderHaps=foundHap, domModel=domModel,migration=migration)
+      sims <- lapply(1:nSim, defineSpecies.func, nPops, nPopsSamples,nChr=nChr, lengthChr=lengthChr, effPopSize=effPopSize, nMarkers=nMarkers, nQTL=nQTL, propDomi=propDomi, nEpiLoci=nEpiLoci, founderHaps=foundHap, domModel=domModel,migration=migration)
     }
     save(sims, nSim, nCore, file=paste(saveDataFileName, ".RData", sep=""))
   }else{ # loadData not NULL
