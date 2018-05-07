@@ -19,7 +19,7 @@
 #'@export
 #defineSpecies <- function(loadData=NULL, importFounderHap=NULL, saveDataFileName="previousData", nSim=1, nCore=1, nChr=7, lengthChr=150, effPopSize=100, nMarkers=1000, nQTL=50, propDomi=0, nEpiLoci=0, domModel="HetHom"){
 defineSpecies <- function(loadData=NULL, importFounderHap=NULL, saveDataFileName="previousData", nSim=1, nCore=1, nPops=12, nPopsSamples=rep(10,12), nChr=31, lengthChr=1.8, effPopSize=10, nMarkers=10000, nQTL=100, propDomi=0, nEpiLoci=0, domModel="HetHom",migration=2.5e-4,tree=0){
-  defineSpecies.func <- function(simNum, nChr, lengthChr, nPops, nPopsSamples,effPopSize, nMarkers, nQTL, propDomi, nEpiLoci, founderHaps=NULL, domModel,migration){
+  defineSpecies.func <- function(simNum, nPops, nPopsSamples,nChr, lengthChr, effPopSize, nMarkers, nQTL, propDomi, nEpiLoci, founderHaps=NULL, domModel,migration){
     seed <- round(stats::runif(1, 0, 1e9))
     nLoci <- nMarkers + nQTL * (nEpiLoci + 1) * 2
     if (is.null(founderHaps)){
