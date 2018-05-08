@@ -7,7 +7,7 @@
 #'
 #'@export
 initializePopulation <- function(sEnv=NULL, nInd=100,nPops=12,subsize=24){
-  initializePopulation.func <- function(data, nInd,nPops=nPops,subsize=subsize){
+  initializePopulation.func <- function(data, nInd,nPops,subsize){
     seed <- round(stats::runif(1, 0, 1e9))
     md <- data$mapData
     #geno <- data$founderHaps * 2 - 1  ####making diploid???????
