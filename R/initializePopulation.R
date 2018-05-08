@@ -18,7 +18,8 @@ initializePopulation <- function(sEnv=NULL, nInd=100,nPops=12,subsize=24){
     for (i in 1:nPops){
       #geno <- geno[sample(nrow(geno), nrow(geno), replace=T),]  ##why do we sample???
       geno <- data$founderHaps * 2 - 1
-      geno <- geno[((i-1)*subsize+1):(subsize*i),][sample(subsize, subsize, replace=T),] #extract subpopulation from the whole 
+      #geno <- geno[((i-1)*subsize+1):(subsize*i),][sample(subsize, subsize, replace=T),] #extract subpopulation from the whole 
+      geno <- geno[((i-1)*subsize+1):(subsize*i),] # do not sample from subpops
       geno <- randomMate(popSize=nInd, geno=geno, pos=md$map$Pos)
       #pedigree <- cbind(-geno$pedigree, 0) # For founders, parents will be negative
       pedigree <- cbind(-(geno$pedigree+(i-1)*subsize/2), 0) #increment the pedigree id with subsize
