@@ -72,10 +72,10 @@ initializePopulation <- function(sEnv=NULL, nInd=100,nPops=12,subsize=24){
   with(sEnv, {
     if(nCore > 1){
       snowfall::sfInit(parallel=T, cpus=nCore)
-      sims <- snowfall::sfLapply(sims, initializePopulation.func, nInd=nInd)
+      sims <- snowfall::sfLapply(sims, initializePopulation.func, nInd=nInd,nPops,subsize)
       snowfall::sfStop()
     }else{
-      sims <- lapply(sims, initializePopulation.func, nInd=nInd)
+      sims <- lapply(sims, initializePopulation.func, nInd=nInd,nPops,subsize)
     }
   })
 }
