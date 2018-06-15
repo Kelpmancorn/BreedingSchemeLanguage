@@ -10,6 +10,8 @@ initializePopulation <- function(sEnv=NULL, nInd=100,nPops=12,subsize=24){
   initializePopulation.func <- function(data, nInd,nPops,subsize){
     seed <- round(stats::runif(1, 0, 1e9))
     md <- data$mapData
+    nQTL<-length(md$effectID)
+    md$effects <- matrix(stats::rnorm(nQTL), nQTL) #resimulate the QTL effect just in case all gvalue is negative
     #geno <- data$founderHaps * 2 - 1  ####making diploid???????
     #data$founderHaps <- NULL
     ##to randome mate withini subpopulaitons
