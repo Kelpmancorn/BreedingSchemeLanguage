@@ -4,18 +4,28 @@
 #'@param nProgeny the number of progeny
 #'@param popID population ID to be devided by meiosis and doubled (default: the latest population)
 #'@param parms optional named list. Objects with those names will be created with the corresponding values. A way to pass values that are not predetermined by the script. Default: NULL
+#'@param GP Data frame contains two colomn. GP$parent indicate which parent for GP, GP$GPpair indicates how many pairs of male and female GPs
 #'
 #'@return modifies the list sims in environment sEnv by creating a doubled haploid progeny population as specified, with an incremented population number
 #'
 #'@export
-doubledHaploid <- function(sEnv=NULL, nProgeny=100, popID=NULL, parms=NULL){
+doubledHaploid <- function(sEnv=NULL, nProgeny=100, popID=NULL, parms=NULL,,GP=NULL){
   if(!is.null(parms)){
     for (n in 1:length(parms)){
       assign(names(parms)[n], parms[[n]])
     }
   }
-  doubledHaploid.func <- function(bsl, nProgeny, popID){
+  doubledHaploid.func <- function(bsl, nProgeny, popID,GP){
     locPos <- bsl$mapData$map$Pos
+    if (!is.null(GP)){
+      GIDpar <- GP$GPparent
+      nPar <- length(GIDpar)
+      geno <- bsl$geno
+      selectID <- rep(GP$GPparent,times=GP$GPpair*2)  # prodcue 2*GPpair of GP, half male and half female
+      geno <- selectDHs(selectID=selectID, geno=geno, pos=locPos) #don't have to define geno, because the selectID is the realized GID
+      pedigree <- cbind(geno$pedigree, -1)
+      geno <- geno$progenies
+    }else{
     if(is.null(popID)){
       popID <- max(bsl$genoRec$popID)
     }
@@ -26,6 +36,7 @@ doubledHaploid <- function(sEnv=NULL, nProgeny=100, popID=NULL, parms=NULL){
     geno <- makeDHs(popSize=nProgeny, geno=geno, pos=locPos)
     pedigree <- cbind(matrix(GIDpar[geno$pedigree], nProgeny), -1)
     geno <- geno$progenies
+    }
     bsl <- addProgenyData(bsl, geno, pedigree)
     if (exists("totalCost", bsl)) bsl$totalCost <- bsl$totalCost + nProgeny * bsl$costs$doubHapCost
     return(bsl)
