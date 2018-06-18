@@ -9,7 +9,7 @@
 #'@return modifies the list sims in environment sEnv by creating a doubled haploid progeny population as specified, with an incremented population number
 #'
 #'@export
-doubledHaploid <- function(sEnv=NULL, nProgeny=100, popID=NULL, parms=NULL,,GP=NULL){
+doubledHaploid <- function(sEnv=NULL, nProgeny=100, popID=NULL, parms=NULL,GP=NULL){
   if(!is.null(parms)){
     for (n in 1:length(parms)){
       assign(names(parms)[n], parms[[n]])
